@@ -2,7 +2,7 @@
 
 ## Goal
 
-Build a Streamlit application named **Get interview ready with AI**. A candidate selects a target role, uploads a résumé, pastes a job description, receives an AI-generated ATS-readiness assessment, and completes a guarded 15-minute text mock interview.
+Build a Streamlit application named **Get interview ready with AI**. A candidate selects a target role, uploads a resume, pastes a job description, receives an AI-generated ATS-readiness assessment, and completes a guarded 15-minute text mock interview.
 
 ## Confirmed product decisions
 
@@ -14,7 +14,7 @@ Build a Streamlit application named **Get interview ready with AI**. A candidate
 - Job description: user must paste it into the UI; there is no external job-board integration.
 - Interview duration: 15 minutes.
 - Feedback: reveal only after the interview completes.
-- Data retention: résumé text, job description, transcript, and reports must exist only in `st.session_state`; do not add a database or file storage.
+- Data retention: resume text, job description, transcript, and reports must exist only in `st.session_state`; do not add a database or file storage.
 - The user explicitly rejected predefined role question banks, keyword heuristics, and deterministic scoring. Model output drives the assessment, questions, guardrail classifications, and answer evaluation.
 
 ## Current implementation
@@ -33,12 +33,12 @@ README.md                     Basic local run instructions
 ### User flow
 
 1. Candidate chooses role, seniority, and interview style in the sidebar.
-2. Candidate uploads PDF/DOCX/TXT résumé and pastes a job description.
+2. Candidate uploads PDF/DOCX/TXT resume and pastes a job description.
 3. `services.resume_parser.extract_resume_text()` extracts local text.
-4. `services.ats.analyse_resume()` sends résumé + job description to Groq and requests a structured `ATSReport`.
+4. `services.ats.analyse_resume()` sends resume + job description to Groq and requests a structured `ATSReport`.
 5. Streamlit displays score, strengths, gaps, criterion assessments, recommendations, and example bullets.
 6. Candidate starts interview; `graphs.interview_graph.start_interview()` invokes the LangGraph `initialise` node.
-7. Groq dynamically generates each question using role, selected level/style, résumé, job description, transcript, and elapsed time.
+7. Groq dynamically generates each question using role, selected level/style, resume, job description, transcript, and elapsed time.
 8. Every candidate message is sent to a Groq guardrail-classifier node and routed to `answer`, `off_topic`, `unsafe`, or `end_interview`.
 9. Valid answers are evaluated privately against six dimensions; feedback is not displayed during the interview.
 10. When the candidate ends the interview or the timer reaches 900 seconds, Groq produces a structured `FinalReport` and Streamlit displays it.
@@ -70,7 +70,7 @@ Groq strict structured output rejected the initial JSON schema with:
 additionalProperties:false must be set on every object
 ```
 
-This has been corrected by making all Pydantic response schemas inherit `StrictSchema`, which sets `ConfigDict(extra="forbid")`. Before further feature work, rerun a minimal Groq structured-output request and then run an end-to-end résumé/interview test.
+This has been corrected by making all Pydantic response schemas inherit `StrictSchema`, which sets `ConfigDict(extra="forbid")`. Before further feature work, rerun a minimal Groq structured-output request and then run an end-to-end resume/interview test.
 
 ## Verification already completed
 
@@ -91,8 +91,8 @@ streamlit run streamlit_app.py
 
 - Never print, commit, or send the `.env` contents.
 - `.env` is already ignored by `.gitignore`.
-- Do not persist résumé text or transcripts.
-- ATS results are estimates, not a claim that a real ATS has evaluated the résumé.
+- Do not persist resume text or transcripts.
+- ATS results are estimates, not a claim that a real ATS has evaluated the resume.
 
 ## MCP status
 

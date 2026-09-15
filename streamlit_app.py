@@ -75,23 +75,23 @@ with st.sidebar:
     style = st.selectbox("Interview style", STYLES)
     st.caption("Sensitive records are encrypted before being saved to PostgreSQL.")
 
-resume_tab, interview_tab, history_tab = st.tabs(["1. AI résumé assessment", "2. 15-minute mock interview", "3. History & progress"])
+resume_tab, interview_tab, history_tab = st.tabs(["1. AI resume assessment", "2. 15-minute mock interview", "3. History & progress"])
 
 with resume_tab:
-    st.subheader("Assess your résumé against a job description")
-    uploaded = st.file_uploader("Upload a PDF, DOCX, or TXT résumé", type=["pdf", "docx", "txt"])
+    st.subheader("Assess your resume against a job description")
+    uploaded = st.file_uploader("Upload a PDF, DOCX, or TXT resume", type=["pdf", "docx", "txt"])
     job_description = st.text_area("Paste the job description", height=180, placeholder="A job description is required for a tailored AI assessment.")
-    if st.button("Analyse and save résumé", type="primary", disabled=uploaded is None or not job_description.strip()):
+    if st.button("Analyse and save resume", type="primary", disabled=uploaded is None or not job_description.strip()):
         try:
             resume_text = extract_resume_text(uploaded.name, uploaded.getvalue())
-            with st.spinner("Groq is comparing your résumé to the job description…"):
+            with st.spinner("Groq is comparing your resume to the job description…"):
                 report = analyse_resume(resume_text, role, job_description).model_dump()
             resume = save_resume(user_id=st.session_state.user_id, filename=uploaded.name, text=resume_text, assessment=report)
             st.session_state.ats_report = report
             st.session_state.resume_text = resume_text
             st.session_state.resume_id = resume.id
             st.session_state.job_description = job_description
-            st.success("Encrypted résumé record and AI assessment saved.")
+            st.success("Encrypted resume record and AI assessment saved.")
         except Exception as exc:
             st.error(f"AI assessment failed ({type(exc).__name__}): {exc}")
 
@@ -119,7 +119,7 @@ with interview_tab:
     st.caption("Questions adapt to your previous answers. Feedback appears only when the interview ends.")
     if st.session_state.interview is None:
         if not st.session_state.resume_id:
-            st.warning("Complete and save an AI résumé assessment first.")
+            st.warning("Complete and save an AI resume assessment first.")
         elif st.button("Start 15-minute interview", type="primary"):
             try:
                 placeholder = create_interview(user_id=st.session_state.user_id, resume_id=st.session_state.resume_id, role=role, difficulty=difficulty, interview_style=style, job_description=st.session_state.job_description, state={})

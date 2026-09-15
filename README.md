@@ -1,6 +1,6 @@
 # Get interview ready with AI
 
-A LangGraph + Streamlit application for Groq-powered, role-specific résumé feedback and guarded mock interviews.
+A LangGraph + Streamlit application for Groq-powered, role-specific resume feedback and guarded mock interviews.
 
 ## Run locally
 
@@ -15,7 +15,7 @@ Create a local `.env` file with `GROQ_API_KEY` and (optionally) `GROQ_MODEL`. Th
 
 ## Phase 2 setup
 
-Phase 2 requires PostgreSQL for accounts, interview history, encrypted résumé records, and LangGraph checkpoints.
+Phase 2 requires PostgreSQL for accounts, interview history, encrypted resume records, and LangGraph checkpoints.
 
 ```bash
 docker compose up -d
@@ -37,7 +37,7 @@ The app automatically creates application tables and LangGraph creates its check
 
 - Upload PDF, DOCX, or TXT resumes
 - Select a target role and optionally paste a job description
-- AI-generated ATS-readiness score and tailored recommendations from the résumé and job description
+- AI-generated ATS-readiness score and tailored recommendations from the resume and job description
 - LangGraph interview workflow with AI-generated questions, evaluation, and off-topic/prompt-injection guardrails
 - Password authentication, encrypted PostgreSQL persistence, interview history, progress metrics, LangGraph checkpoints, and downloadable PDF reports
 

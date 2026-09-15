@@ -1,4 +1,4 @@
-"""Model-driven résumé and job-description assessment."""
+"""Model-driven resume and job-description assessment."""
 
 from __future__ import annotations
 

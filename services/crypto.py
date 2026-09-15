@@ -15,7 +15,7 @@ class EncryptionConfigurationError(RuntimeError):
 def _fernet() -> Fernet:
     key = os.getenv("DATA_ENCRYPTION_KEY")
     if not key:
-        raise EncryptionConfigurationError("DATA_ENCRYPTION_KEY is required before persisting résumé or interview data.")
+        raise EncryptionConfigurationError("DATA_ENCRYPTION_KEY is required before persisting resume or interview data.")
     return Fernet(key.encode())
 
 
